@@ -1,0 +1,44 @@
+---
+# Alma API key (preferably only with access to Analytics)
+alma_api_key: FILL IN KEY HERE
+
+# Full path to the Analytics report to fetch data from
+report_path: /shared/UIO,Universitetsbiblioteket/Reports/Hyllerydding/hyllerydde_liste
+
+# Analytics field to vary
+variable: '"Location"."Location Code"'
+
+# The files to create and what value(s) to use for the variable Analytics field.
+# If more values are given, they are combined with OR.
+files:
+  astro.txt:
+    - k00413  # UREAL Astr.
+  bio.txt:
+    - k00421  # UREAL Biol.
+  boksamling.txt:
+    - k00423  # UREAL Boksamling
+  farm.txt:
+    - k00426  # UREAL Farm.
+  fys.txt:
+    - k00440  # UREAL Fys.
+  geo.txt:
+    - k00447  # UREAL Geo.
+    - k00449  # UREAL Geol.
+  kjem.txt:
+    - k00457  # UREAL Kjem.
+  mat.txt:
+    - k00465  # UREAL Mat.
+  oppsl.txt:
+    - k00469  # UREAL Oppsl.
+  samling42.txt:
+    - k00475  # UREAL Samling 42
+  scifi.txt:
+    - k00477  # UREAL SciFi
+  pensum_laveregrad.txt:
+    - k00460  # UREAL Laveregrad
+    - k00471  # UREAL Pensum
+    - k60011  # UREAL Pensum (Dagslån)
+
+# Where to store the files.
+dest:
+  path: /uio/kant/ub-ureal/felles/Samlingene/Hyllerydder/lister/
