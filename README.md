@@ -22,7 +22,7 @@ P.V. Supa LibAssist.
 
 2. Installer avhengigheter:
 
-    pip install requests untangle tqdm
+    pip install -r requirements.txt
 
 3. Kjør:
 
