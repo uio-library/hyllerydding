@@ -1,4 +1,6 @@
 ---
+version: 1
+
 # Alma API key (preferably only with access to Analytics)
 alma_api_key: FILL IN KEY HERE
 
