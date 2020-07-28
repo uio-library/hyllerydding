@@ -60,25 +60,27 @@ def store_report(session, stream, endpoint, report, filter, fields):
             if 'web_service_result' in dir(xml):
                 raise RuntimeError(xml.web_service_result.errorList.error.errorMessage.cdata)
 
-            if 'rowset' not in dir(xml.report.QueryResult.ResultXml):
-                raise RuntimeError('Invalid response: ' + res.text)
-
-            for row in xml.report.QueryResult.ResultXml.rowset.Row:
-                data = {}
-                for k, v in column_map.items():
-                    data[v] = ''
-                    if k in dir(row):
-                        data[v] = getattr(row, k).cdata
-                if data['barcode'] == '':
-                    continue
-                if data['callcode'] == 'Unknown':
-                    data['callcode'] = '?'
-                if len(data['title']) > 100:
-                    data['title'] = data['title'][:98] + '...'
-                buffer.append(data)
-                n += 1
-                aggs[data['process_type']] = aggs.get(data['process_type'], 0) + 1
-                pbar.update(1)
+            if 'rowset' in dir(xml.report.QueryResult.ResultXml):
+                # Sometimes you can get a response with no rows, just a resumption token.
+                # perhaps because the server is busy or something.
+                if 'Row' in dir(xml.report.QueryResult.ResultXml.rowset):
+                    # And sometimes empty rowsets of course...
+                    for row in xml.report.QueryResult.ResultXml.rowset.Row:
+                        data = {}
+                        for k, v in column_map.items():
+                            data[v] = ''
+                            if k in dir(row):
+                                data[v] = getattr(row, k).cdata
+                        if data['barcode'] == '':
+                            continue
+                        if data['callcode'] == 'Unknown':
+                            data['callcode'] = '?'
+                        if len(data['title']) > 100:
+                            data['title'] = data['title'][:98] + '...'
+                        buffer.append(data)
+                        n += 1
+                        aggs[data['process_type']] = aggs.get(data['process_type'], 0) + 1
+                        pbar.update(1)
 
             if 'ResumptionToken' in dir(xml.report.QueryResult):
                 token = xml.report.QueryResult.ResumptionToken.cdata
